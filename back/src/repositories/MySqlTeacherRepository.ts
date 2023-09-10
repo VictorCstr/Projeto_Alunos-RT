@@ -30,4 +30,11 @@ export class MySqlTeacherRepository implements ITeacherRepository {
       throw new Error("Method not implemented yet");
     }
   }
+  async existUser(email: string): Promise<Boolean> {
+    try {
+      throw new Error("Method not implemented yet");
+    } catch (e) {
+      throw new Error("Method not implemented yet");
+    }
+  }
 }
