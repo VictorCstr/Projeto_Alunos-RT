@@ -16,5 +16,11 @@ if (cluster.isPrimary) {
     });
   }
 } else {
-  app.listen(port, "0.0.0.0");
+  var http = require("http").createServer(app);
+  http.listen(port, "0.0.0.0");
 }
+export const io = require("socket.io")(http, {
+  cors: {
+    methods: ["GET", "POST"],
+  },
+});

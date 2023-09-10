@@ -5,11 +5,11 @@ import teacherRoutes from "./routes/TeacherRouter";
 import routes from "./routes/GradesRouter";
 
 const app = express();
-
+app.use(cors());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 app.use(compression());
-app.use(cors());
+
 app.use(teacherRoutes);
 app.use(routes);
 

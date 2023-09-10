@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { Subject, catchError, of } from 'rxjs';
+import { Observable, Subject, catchError, of } from 'rxjs';
+import { io } from 'socket.io-client';
 import { Teacher } from 'src/app/interfaces/Teacher';
 import { UserService } from 'src/app/services/user.service';
 
@@ -14,6 +15,7 @@ export class ReleaseGradesComponent {
   user!: Teacher;
   form!: FormGroup;
   error$ = new Subject<true>();
+  socket = io('http://localhost:9090');
 
   constructor(
     private userService: UserService,

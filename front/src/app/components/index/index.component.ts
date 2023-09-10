@@ -2,6 +2,9 @@ import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Student } from 'src/app/interfaces/Student';
 import { UserService } from 'src/app/services/user.service';
+import { io } from 'socket.io-client';
+import { Observable } from 'rxjs';
+import { SocketService } from 'src/app/services/socket.service';
 
 @Component({
   selector: 'app-index',
@@ -12,9 +15,18 @@ export class IndexComponent {
   students!: Student[];
   studentBySchool!: Student[];
   school!: string;
+  socket = io('http://localhost:9090');
 
-  constructor(private route: ActivatedRoute, private userService: UserService) {
+  constructor(
+    private route: ActivatedRoute,
+    private userService: UserService,
+    private socketService: SocketService
+  ) {
     this.listGlobalRanking();
+
+    this.socketService.onEvent('newGrades').subscribe(() => {
+      this.listGlobalRanking();
+    });
   }
 
   listGlobalRanking(): void {
