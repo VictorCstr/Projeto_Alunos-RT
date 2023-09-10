@@ -6,6 +6,7 @@ import { Teacher } from "../entities/Teacher";
 import { Activity } from "../entities/Activity";
 import { compareHash } from "../utils/encrypt";
 import { signJwt } from "../utils/signJwt";
+import { Student } from "../entities/Student";
 
 const prisma = new PrismaClient();
 
@@ -21,6 +22,23 @@ export class MySqlTeacherRepository implements ITeacherRepository {
       return false;
     }
   }
+  async createStudent(student: Student): Promise<boolean> {
+    try {
+      await prisma.student.create({
+        data: {
+          id: student.id,
+          school: student.school,
+          name: student.name,
+        },
+      });
+
+      return true;
+    } catch (e) {
+      logger.error(e);
+      return false;
+    }
+  }
+
   async login(email: string, password: string): Promise<string> {
     try {
       const user = (await prisma.teacher.findUnique({
@@ -40,11 +58,20 @@ export class MySqlTeacherRepository implements ITeacherRepository {
       throw new ApiError(400, e as string);
     }
   }
-  async releaseGrades(activity: Activity): Promise<Boolean> {
+  async releaseGrades(activity: Activity, id: string): Promise<Boolean> {
     try {
-      throw new Error("Method not implemented yet");
+      await prisma.activity.create({
+        data: {
+          id: activity.id,
+          name: activity.name,
+          grade: activity.grade,
+          studentId: id,
+        },
+      });
+      return true;
     } catch (e) {
-      throw new Error("Method not implemented yet");
+      logger.error(e);
+      throw new ApiError(400, e as string);
     }
   }
   async existUser(email: string): Promise<Boolean> {
@@ -52,6 +79,19 @@ export class MySqlTeacherRepository implements ITeacherRepository {
       const user = await prisma.teacher.findUnique({
         where: {
           email,
+        },
+      });
+      return user ? true : false;
+    } catch (error) {
+      logger.error(error);
+      throw new ApiError(400, error as string);
+    }
+  }
+  async existStudent(studentId: string): Promise<boolean> {
+    try {
+      const user = await prisma.student.findUnique({
+        where: {
+          id: studentId,
         },
       });
       return user ? true : false;
