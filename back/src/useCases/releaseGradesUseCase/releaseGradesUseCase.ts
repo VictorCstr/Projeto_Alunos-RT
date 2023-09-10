@@ -15,6 +15,7 @@ export class ReleaseGradesUseCase {
     let releaseGrades;
 
     const newActivity = new Activity({
+      school: school,
       grade: activity.grade,
       name: activity.name,
     });

@@ -30,9 +30,10 @@ model Student {
 
 model Activity {
   id        String  @id
-  studentId String
+  school    School
   name      String
   grade     Int
+  studentId String
   Student   Student @relation(fields: [studentId], references: [id])
 
   @@map("activity")

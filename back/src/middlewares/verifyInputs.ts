@@ -6,6 +6,7 @@ import {
   passwordIsCorrect,
   schoolIsCorrect,
 } from "../utils/validateInputs";
+import { School } from "../entities/enums/School";
 
 export async function verifyCreateTeacherInputs(
   req: Request,
@@ -46,6 +47,22 @@ export async function verifyReleaseGradesInputs(
   } else if (verifyName.sucess == false) {
     return res.status(400).json({ error: verifyName.result });
   } else if (verifySchool.sucess == false) {
+    return res.status(400).json({ error: verifySchool.result });
+  } else {
+    next();
+  }
+}
+
+export async function verifyGetByRankingInputs(
+  req: Request,
+  res: Response,
+  next: NextFunction
+) {
+  const school = req.params.school as School;
+
+  const verifySchool = await schoolIsCorrect(school);
+
+  if (verifySchool.sucess == false) {
     return res.status(400).json({ error: verifySchool.result });
   } else {
     next();

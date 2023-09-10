@@ -1,7 +1,9 @@
 import { randomUUID } from "crypto";
+import { School } from "./enums/School";
 
 export class Activity {
   readonly id!: string;
+  school!: School;
   name!: string;
   grade!: number;
 

@@ -1,36 +1,49 @@
 import express, { Request, Response } from "express";
 import logger from "../utils/logger";
+import { getRankingBySchoolUseCase } from "../useCases/getRankingBySchoolUseCase";
+import { School } from "../entities/enums/School";
+import { verifyGetByRankingInputs } from "../middlewares/verifyInputs";
+import { getTotalRankingUseCase } from "../useCases/getTotalRankingUseCase";
 
 const routes = express.Router();
 
-// routes.post("/pedido", verificarInputs, async (req: Request, res: Response) => {
-//   try {
-//     logger.info("Requisição recebida na rota POST /pedido");
-//     logger.info("Requisição:");
-//     logger.info(req.body);
-//     logger.info("Respostas:");
-//     logger.info(pedido);
+routes.get(
+  "/grades/:school",
+  verifyGetByRankingInputs,
+  async (req: Request, res: Response) => {
+    try {
+      const school = req.params.school as string;
 
-//     return res.status(201).json(pedido);
-//   } catch (err) {
-//     console.log(err);
-//     return res.status(400).json({ message: err || "Unexpected Error" });
-//   }
-// });
+      logger.info("Requisição recebida na rota GET /grades");
+      logger.info(req.body);
 
-// routes.get("/pedidos", async (req: Request, res: Response) => {
-//   try {
-//
+      const ranking = await getRankingBySchoolUseCase.execute({ school });
 
-//     logger.info("Requisição recebida na rota GET /pedidos");
-//     logger.info("Resposta:");
-//     logger.info(pedidos);
+      logger.info("Resposta:");
+      logger.info(ranking);
 
-//     return res.status(200).json(pedidos);
-//   } catch (err) {
-//     console.log(err);
-//     return res.status(400).json({ message: err || "Unexpected Error" });
-//   }
-// });
+      return res.status(200).json(ranking);
+    } catch (err) {
+      console.log(err);
+      return res.status(400).json({ message: err || "Unexpected Error" });
+    }
+  }
+);
+
+routes.get("/grades", async (req: Request, res: Response) => {
+  try {
+    logger.info("Requisição recebida na rota GET /grades");
+
+    const ranking = await getTotalRankingUseCase.execute();
+
+    logger.info("Resposta:");
+    logger.info(ranking);
+
+    return res.status(200).json(ranking);
+  } catch (err) {
+    console.log(err);
+    return res.status(400).json({ message: err || "Unexpected Error" });
+  }
+});
 
 export default routes;

@@ -63,6 +63,7 @@ export class MySqlTeacherRepository implements ITeacherRepository {
       await prisma.activity.create({
         data: {
           id: activity.id,
+          school: activity.school,
           name: activity.name,
           grade: activity.grade,
           studentId: id,

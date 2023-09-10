@@ -25,8 +25,7 @@ export async function nameIsCorrect(name: string) {
     name.length > 50 ||
     name.length < 4 ||
     name == null ||
-    name == undefined ||
-    name.split(" ").length < 2
+    name == undefined
   ) {
     return {
       sucess: false,
