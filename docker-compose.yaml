@@ -1,0 +1,40 @@
+version: "3.8"
+
+services:
+  api:
+    container_name: api
+    build:
+      context: .
+      dockerfile: ./back/Dockerfile
+      target: development
+    ports:
+      - "9090:9090"
+    expose:
+      - "9090"
+    restart: always
+    env_file:
+      - ./back/.env
+    networks:
+      - backend
+
+  web:
+    container_name: web
+    depends_on:
+      - api
+    build:
+      context: .
+      dockerfile: ./front/Dockerfile
+      target: development
+    ports:
+      - "4200:4200"
+    expose:
+      - "4200"
+    restart: always
+    networks:
+      - backend
+
+volumes:
+  db_data_info: {}
+networks:
+  backend:
+    driver: bridge
