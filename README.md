@@ -7,7 +7,7 @@
 
 ## :computer: O projeto
 
-- Sistema de rankeamento de alunos. Utilizando Clean Architecture com sua arquitetura desacoplada, o sistema possui cadastro e login de professores com JWT que permite, assim que logado, fazer o lançamento de notas de alunos informando a escola e matéria vinculada a cada aluno.
+- Sistema de rankeamento de alunos. Utilizando Clean Architecture com sua arquitetura desacoplada, o que permite integrar outros microsserviços posteriormente e também prestar manutenção facilmente. O sistema possui cadastro e login de professores com JWT que permite, assim que logado, fazer o lançamento de notas de alunos informando a escola e matéria vinculada a cada aluno.
 - Na página principal, de forma pública, é mostrado o rankeamento global do top 3 de todas as escolas, e através de botões é possível ver o top 10 de cada escola.
 
 ## :computer: Tecnologias
