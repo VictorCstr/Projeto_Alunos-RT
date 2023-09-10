@@ -2,6 +2,7 @@ import express, { Request, Response } from "express";
 import logger from "../utils/logger";
 import { createTeacherUseCase } from "../useCases/createTeacherUseCase/index";
 import verifyInputs from "../middlewares/verifyInputs";
+import { loginTeacherUseCase } from "../useCases/loginTeacherUseCase";
 
 const teacherRoutes = express.Router();
 
@@ -12,15 +13,15 @@ teacherRoutes.post(
     try {
       const { name, email, password } = req.body;
 
+      logger.info("Requisição recebida na rota POST /teacher");
+      logger.info(req.body);
+
       const createUser = await createTeacherUseCase.execute({
         name,
         email,
         password,
       });
 
-      logger.info("Requisição recebida na rota POST /pedido");
-      logger.info("Requisição:");
-      logger.info(req.body);
       logger.info("Respostas:");
       logger.info(createUser);
 
@@ -32,18 +33,22 @@ teacherRoutes.post(
   }
 );
 
-// teacherRoutes.get("/", async (req: Request, res: Response) => {
-//   try {
-//
-//     logger.info("Requisição recebida na rota GET /pedidos");
-//     logger.info("Resposta:");
-//     logger.info(pedidos);
+teacherRoutes.post("/teacher/login", async (req: Request, res: Response) => {
+  try {
+    const { email, password } = req.body;
+    logger.info("Requisição recebida na rota POST /teacher/login");
+    logger.info(req.body);
 
-//     return res.status(200).json(pedidos);
-//   } catch (err) {
-//     console.log(err);
-//     return res.status(400).json({ message: err || "Unexpected Error" });
-//   }
-// });
+    const login = await loginTeacherUseCase.execute({ email, password });
+
+    logger.info("Resposta:");
+    logger.info(login);
+
+    return res.status(200).json(login);
+  } catch (err) {
+    console.log(err);
+    return res.status(400).json({ message: err || "Unexpected Error" });
+  }
+});
 
 export default teacherRoutes;

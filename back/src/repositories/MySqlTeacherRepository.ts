@@ -4,6 +4,8 @@ import logger from "../utils/logger";
 import { ITeacherRepository } from "../interfaces/ITeacherRepository";
 import { Teacher } from "../entities/Teacher";
 import { Activity } from "../entities/Activity";
+import { compareHash } from "../utils/encrypt";
+import { signJwt } from "../utils/signJwt";
 
 const prisma = new PrismaClient();
 
@@ -11,16 +13,31 @@ export class MySqlTeacherRepository implements ITeacherRepository {
   constructor() {}
   async create(teacher: Teacher): Promise<Boolean> {
     try {
-      throw new Error("Method not implemented yet");
+      await prisma.teacher.create({ data: teacher });
+
+      return true;
     } catch (e) {
-      throw new Error("Method not implemented yet");
+      logger.error(e);
+      return false;
     }
   }
-  async login(email: string, password: string): Promise<Boolean> {
+  async login(email: string, password: string): Promise<string> {
     try {
-      throw new Error("Method not implemented yet");
+      const user = (await prisma.teacher.findUnique({
+        where: {
+          email,
+        },
+      })) as Teacher;
+
+      const passwordIsCorrect = await compareHash(password, user.password);
+
+      if (passwordIsCorrect == false)
+        throw new ApiError(401, "Erro no login, verifique as credenciais.");
+
+      return await signJwt(user);
     } catch (e) {
-      throw new Error("Method not implemented yet");
+      logger.error(e);
+      throw new ApiError(400, e as string);
     }
   }
   async releaseGrades(activity: Activity): Promise<Boolean> {
@@ -32,9 +49,15 @@ export class MySqlTeacherRepository implements ITeacherRepository {
   }
   async existUser(email: string): Promise<Boolean> {
     try {
-      throw new Error("Method not implemented yet");
-    } catch (e) {
-      throw new Error("Method not implemented yet");
+      const user = await prisma.teacher.findUnique({
+        where: {
+          email,
+        },
+      });
+      return user ? true : false;
+    } catch (error) {
+      logger.error(error);
+      throw new ApiError(400, error as string);
     }
   }
 }
