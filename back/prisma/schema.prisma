@@ -21,6 +21,7 @@ model Teacher {
 
 model Student {
   id       String     @id
+  name     String
   school   School
   activity Activity[]
 

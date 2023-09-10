@@ -4,6 +4,7 @@ import { Activity } from "./Activity";
 
 export class Student {
   readonly id: string;
+  name: string;
   school: School;
   activity: Activity;
 
