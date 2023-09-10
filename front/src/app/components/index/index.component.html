@@ -1,0 +1,39 @@
+<body class="text-center container">
+  <div class="container">
+    <h3 class="text-sm-center mb-5">Ranking global de alunos</h3>
+    <div class="card-group">
+      <div class="card mb-2" *ngFor="let student of students; let i = index">
+        <div class="card-body">
+          <h4>Posição: {{ i + 1 }}</h4>
+          <p class="card-text">Id: {{ student.id }}</p>
+          <p class="card-text">Nome: {{ student.name }}</p>
+          <p class="card-text">Escola: {{ student.school }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <h3 class="text-sm-center mb-5 mt-5">Ranking por escola</h3>
+  <button class="btn btn-info mx-2" (click)="changeSchool('Dados')">
+    Dados
+  </button>
+  <button class="btn btn-info mx-2" (click)="changeSchool('Tecnologia')">
+    Tecnologia
+  </button>
+  <button class="btn btn-info mx-2" (click)="changeSchool('Produto')">
+    Produto
+  </button>
+  <div class="card-group">
+    <div
+      class="card mb-2 mt-5"
+      *ngFor="let student of studentBySchool; let i = index"
+    >
+      <div class="card-body">
+        <h4>Posição: {{ i + 1 }}</h4>
+        <p class="card-text">Id: {{ student.id }}</p>
+        <p class="card-text">Nome: {{ student.name }}</p>
+        <p class="card-text">Escola: {{ student.school }}</p>
+      </div>
+    </div>
+  </div>
+</body>

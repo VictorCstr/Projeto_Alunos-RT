@@ -1,0 +1,101 @@
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
+  <div class="text-center container" id="containerCreate">
+    <img
+      class="mb-4"
+      src="/assets/person-add.svg"
+      alt=""
+      width="72"
+      height="57"
+    />
+    <h2 class="h3 mb-3 fw-normal">
+      Preencha os dados abaixo para lançar a nota!
+    </h2>
+    <div class="form-group">
+      <input
+        class="form-control"
+        type="text"
+        id="id"
+        formControlName="id"
+        placeholder="Digite o ID do aluno"
+      />
+      <div
+        class="text-danger mt-2 mb-4"
+        *ngIf="form.get('id')?.errors && form.get('id')?.touched"
+      >
+        Obrigatório informar o ID!
+      </div>
+    </div>
+    <div class="form-group">
+      <input
+        class="form-control"
+        type="text"
+        id="name"
+        formControlName="name"
+        placeholder="Digite o nome do aluno"
+      />
+      <div
+        class="text-danger mt-2 mb-4"
+        *ngIf="form.get('name')?.errors && form.get('name')?.touched"
+      >
+        Obrigatório informar o nome!
+      </div>
+    </div>
+    <div class="form-group">
+      <input
+        class="form-control"
+        type="text"
+        id="school"
+        formControlName="school"
+        placeholder="Escola do aluno: (Dados/Tecnologia/Produto)"
+      />
+      <div
+        class="text-danger mt-2 mb-4"
+        *ngIf="form.get('school')?.errors && form.get('school')?.touched"
+      >
+        Obrigatório informar o nome da escola!
+      </div>
+    </div>
+    <div class="form-group">
+      <input
+        class="form-control"
+        type="text"
+        id="activity"
+        formControlName="activity"
+        placeholder="Digite o nome da atividade"
+      />
+      <div
+        class="text-danger mt-2 mb-4"
+        *ngIf="form.get('activity')?.errors && form.get('activity')?.touched"
+      >
+        Obrigatório informar o nome!
+      </div>
+    </div>
+    <div class="form-group">
+      <input
+        class="form-control"
+        type="number"
+        min="0"
+        max="100"
+        id="grade"
+        formControlName="grade"
+        placeholder="Digite a nota do aluno de 0 a 100"
+      />
+      <div
+        class="text-danger mt-2 mb-4"
+        *ngIf="form.get('grade')?.errors && form.get('grade')?.touched"
+      >
+        Obrigatório informar o nome!
+      </div>
+    </div>
+    <div class="text-danger mt-2 mb-4" *ngIf="error$ | async">
+      Erro ao realizar o cadastro, preencha novamente conferindo os dados.
+    </div>
+
+    <input
+      class="btn btn-primary btn-lg mt-4"
+      type="submit"
+      value="Criar"
+      [disabled]="!form.valid"
+    />
+  </div>
+</form>
