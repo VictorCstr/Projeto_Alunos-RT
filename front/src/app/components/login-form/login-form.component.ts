@@ -2,6 +2,7 @@ import { Component, Input } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Subject, catchError, of } from 'rxjs';
+import { SuccessMessage } from 'src/app/interfaces/SuccessMessage';
 import { UserService } from 'src/app/services/user.service';
 
 @Component({
@@ -38,9 +39,8 @@ export class LoginFormComponent {
         })
       )
       .subscribe({
-        next: (data: unknown) => {
-          console.log(data);
-          const jwt = sessionStorage.setItem('token', data as string);
+        next: (data: any) => {
+          const jwt = sessionStorage.setItem('token', data.message as string);
           alert('Usuário logado com sucesso!');
           this.router.navigate(['/grades']);
         },

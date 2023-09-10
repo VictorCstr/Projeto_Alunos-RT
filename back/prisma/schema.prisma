@@ -29,12 +29,12 @@ model Student {
 }
 
 model Activity {
-  id        String  @id
-  school    School
-  name      String
-  grade     Int
-  studentId String
-  Student   Student @relation(fields: [studentId], references: [id])
+  id           String  @id
+  school       School
+  activityName String
+  grade        Int
+  studentId    String
+  Student      Student @relation(fields: [studentId], references: [id])
 
   @@map("activity")
 }

@@ -23,7 +23,7 @@ export class UserService {
   getRankingBySchool(school: string): Observable<Student[]> {
     return this.http.get<Student[]>(`${this.apiUrl}/grades/${school}`);
   }
-  releaseGrades(formData: FormData): Observable<void> {
-    return this.http.post<void>(`${this.apiUrl}/teacher/grades`, formData);
+  releaseGrades(formData: FormData): Observable<FormData> {
+    return this.http.post<FormData>(`${this.apiUrl}/teacher/grades`, formData);
   }
 }

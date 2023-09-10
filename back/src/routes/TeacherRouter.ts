@@ -7,6 +7,7 @@ import {
 } from "../middlewares/verifyInputs";
 import { loginTeacherUseCase } from "../useCases/loginTeacherUseCase";
 import { releaseGradesUseCase } from "../useCases/releaseGradesUseCase";
+import verifyJWT from "../middlewares/verifyAuth";
 
 const teacherRoutes = express.Router();
 
@@ -58,9 +59,10 @@ teacherRoutes.post("/teacher/login", async (req: Request, res: Response) => {
 teacherRoutes.post(
   "/teacher/grades",
   verifyReleaseGradesInputs,
+  verifyJWT,
   async (req: Request, res: Response) => {
     try {
-      const { id, name, school, activity } = req.body;
+      const { id, name, school, activityName, grade } = req.body;
       logger.info("Requisição recebida na rota POST /teacher/login");
       logger.info(req.body);
 
@@ -68,7 +70,11 @@ teacherRoutes.post(
         id,
         name,
         school,
-        activity,
+        activity: {
+          activityName,
+          grade,
+          school: school,
+        },
       });
 
       logger.info("Resposta:");

@@ -17,7 +17,7 @@ export class ReleaseGradesUseCase {
     const newActivity = new Activity({
       school: school,
       grade: activity.grade,
-      name: activity.name,
+      activityName: activity.activityName,
     });
 
     const existStudent = await this.teacherRepository.existStudent(id);

@@ -2,9 +2,9 @@ import { randomUUID } from "crypto";
 import { School } from "./enums/School";
 
 export class Activity {
-  readonly id!: string;
+  readonly id?: string;
   school!: School;
-  name!: string;
+  activityName!: string;
   grade!: number;
 
   constructor(props: Omit<Activity, "id">, id?: string) {

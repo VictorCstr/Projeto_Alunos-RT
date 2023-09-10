@@ -35,12 +35,11 @@ export async function verifyReleaseGradesInputs(
   res: Response,
   next: NextFunction
 ) {
-  const { school } = req.body;
-  const { name, grade } = req.body.activity;
+  const { school, activityName, grade } = req.body;
 
   const verifySchool = await schoolIsCorrect(school);
   const verifyGrade = await gradeIsCorrect(grade);
-  const verifyName = await nameIsCorrect(name);
+  const verifyName = await nameIsCorrect(activityName);
 
   if (verifyGrade.sucess == false) {
     return res.status(400).json({ error: verifyGrade.result });

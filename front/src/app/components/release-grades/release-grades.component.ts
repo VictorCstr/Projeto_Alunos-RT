@@ -28,16 +28,14 @@ export class ReleaseGradesComponent {
       id: ['', [Validators.required]],
       name: ['', [Validators.required]],
       school: ['', [Validators.required]],
-      activity: {
-        name: ['', [Validators.required]],
-        grade: ['', [Validators.required]],
-      },
+      activityName: ['', [Validators.required]],
+      grade: ['', [Validators.required]],
     });
   }
 
   onSubmit(): void {
     this.userService
-      .createTeacher(this.form.value)
+      .releaseGrades(this.form.value)
       .pipe(
         catchError((error) => {
           console.error(error);
@@ -47,7 +45,7 @@ export class ReleaseGradesComponent {
       )
       .subscribe({
         next: () => {
-          alert('Usuário criado com sucesso!');
+          alert('Nota lançada com sucesso!');
           this.router.navigate(['']);
         },
       });

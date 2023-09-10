@@ -64,7 +64,7 @@ export class MySqlTeacherRepository implements ITeacherRepository {
         data: {
           id: activity.id,
           school: activity.school,
-          name: activity.name,
+          activityName: activity.activityName,
           grade: activity.grade,
           studentId: id,
         },

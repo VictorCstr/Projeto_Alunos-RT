@@ -24,8 +24,7 @@
       >
         Obrigatório informar o ID!
       </div>
-    </div>
-    <div class="form-group">
+
       <input
         class="form-control"
         type="text"
@@ -39,8 +38,7 @@
       >
         Obrigatório informar o nome!
       </div>
-    </div>
-    <div class="form-group">
+
       <input
         class="form-control"
         type="text"
@@ -54,23 +52,23 @@
       >
         Obrigatório informar o nome da escola!
       </div>
-    </div>
-    <div class="form-group">
+
       <input
         class="form-control"
         type="text"
-        id="activity"
-        formControlName="activity"
+        id="activityName"
+        formControlName="activityName"
         placeholder="Digite o nome da atividade"
       />
       <div
         class="text-danger mt-2 mb-4"
-        *ngIf="form.get('activity')?.errors && form.get('activity')?.touched"
+        *ngIf="
+          form.get('activityName')?.errors && form.get('activityName')?.touched
+        "
       >
-        Obrigatório informar o nome!
+        Obrigatório informar o nome da atividade!
       </div>
-    </div>
-    <div class="form-group">
+
       <input
         class="form-control"
         type="number"
@@ -84,7 +82,7 @@
         class="text-danger mt-2 mb-4"
         *ngIf="form.get('grade')?.errors && form.get('grade')?.touched"
       >
-        Obrigatório informar o nome!
+        Obrigatório informar a nota de 0 a 100!
       </div>
     </div>
     <div class="text-danger mt-2 mb-4" *ngIf="error$ | async">
