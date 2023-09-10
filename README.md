@@ -23,7 +23,10 @@
 - Angular, Bootstrap.
 - CORS.
 - SOLID, POO.
-- MySQL, Prisma ORM.
+- MySQL localmente, Prisma ORM.
+- Amazon RDS com uma instância MySQL para produção.
+- Amazon Elastic Container Registry para subir os containers.
+- Amazon Elastic Kubernetes Service para orquestração dos containers de forma prática.
 - Docker e Docker-Compose.
 - JSON Web Token para uso de tokens no portal.
 - Bcrypt para processamento de Hash mais confiável das senhas.
