@@ -26,6 +26,7 @@ export class IndexComponent {
 
     this.socketService.onEvent('newGrades').subscribe(() => {
       this.listGlobalRanking();
+      this.listRankingBySchool();
     });
   }
 
