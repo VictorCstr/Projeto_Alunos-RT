@@ -8,7 +8,7 @@
 ## :computer: O projeto
 
 - Sistema de rankeamento de alunos. Utilizando Clean Architecture com sua arquitetura desacoplada, o que permite integrar outros microsserviços posteriormente e também prestar manutenção facilmente. O sistema possui cadastro e login de professores com JWT que permite, assim que logado, fazer o lançamento de notas de alunos informando a escola e matéria vinculada a cada aluno.
-- Na página principal, de forma pública, é mostrado o rankeamento global do top 3 de todas as escolas, e através de botões é possível ver o top 10 de cada escola.
+- Na página principal, de forma pública, é mostrado o rankeamento global do top 3 de todas as escolas, e através de botões é possível ver o top 10 de cada escola. Atualização do ranking em tempo real utilizando websockets, que são enviados e atualizados sempre que é enviada uma nota nova no sistema.
 
 ## :computer: Diagrama do banco de Dados
   <p align="center">
@@ -24,7 +24,7 @@
 - CORS.
 - SOLID, POO.
 - MySQL localmente, Prisma ORM.
-- Amazon RDS com uma instância MySQL para produção.
+- Amazon RDS com uma instância MySQL para produção com escalabilidade automática.
 - Amazon Elastic Container Registry para subir os containers.
 - Amazon Elastic Kubernetes Service para orquestração dos containers de forma prática.
 - Docker e Docker-Compose.
@@ -69,5 +69,52 @@ $ npm test
 
 ```bash
 
+** Create Teacher **
+
+$ Path: http://localhost:9090/teacher
+
+$ Body:
+#   {
+#        "name": "Victor Castro",
+#	       "email": "victor@gmail.com",
+#       	"password": "@teste123"
+#   }
+#  Como retorno receberá um success booleano e uma mensagem.
+
+** Login Teacher **
+
+$ Path: http://localhost:9090/teacher/login
+
+$ Body:
+#   {
+#	       "email": "victor@gmail.com",
+#       	"password": "@teste123"
+#   }
+#  Como retorno receberá um success booleano e na mensagem o token JWT.
+
+** Release Grades **
+
+$ Path: http://localhost:9090/teacher/grades
+$ Headers= Authorization ${Token JWT retornando no Login}
+
+$ Body:
+#   {
+#       "id": "42",
+#	      "name": "Victor",
+#       "school": "Tecnologia",
+#	      "activityName": "Python",
+#       "grade": 100
+#   }
+#  Como retorno receberá um success booleano e uma mensagem.
+
+** Ranking Total **
+
+$ Path: http://localhost:9090/grades
+#  Como retorno receberá um array com os 3 alunos com a maior somatória de notas.
+
+** Ranking por escola **
+
+$ Path: http://localhost:9090/grades/{school}, exemplos: http://localhost:9090/grades/Dados, http://localhost:9090/grades/Tecnologia
+#  Como retorno receberá um array com os 10 alunos com a maior somatória de notas filtrados pela escola.
 
 ```
