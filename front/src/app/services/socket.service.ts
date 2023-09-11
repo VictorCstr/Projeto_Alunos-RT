@@ -9,7 +9,10 @@ export class SocketService {
   private socket: any;
 
   constructor() {
-    this.socket = io('http://localhost:9090'); // Substitua pela URL do seu servidor Socket.IO
+    this.socket = io('http://host.docker.internal:9090', {
+      reconnection: false,
+      reconnectionDelay: 3000,
+    });
   }
 
   sendMessage(message: string) {

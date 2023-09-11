@@ -16,6 +16,7 @@ export class ReleaseGradesComponent {
   form!: FormGroup;
   error$ = new Subject<true>();
   socket = io('http://localhost:9090');
+  erro!: string;
 
   constructor(
     private userService: UserService,
@@ -40,7 +41,8 @@ export class ReleaseGradesComponent {
       .releaseGrades(this.form.value)
       .pipe(
         catchError((error) => {
-          console.error(error);
+          console.error(error.error);
+          this.erro = error.error.error;
           this.error$.next(true);
           return of();
         })

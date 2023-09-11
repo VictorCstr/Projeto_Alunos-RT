@@ -14,6 +14,7 @@ export class CreateUserFormComponent {
   user!: Teacher;
   form!: FormGroup;
   error$ = new Subject<true>();
+  erro!: string;
 
   constructor(
     private userService: UserService,
@@ -37,6 +38,12 @@ export class CreateUserFormComponent {
       .pipe(
         catchError((error) => {
           console.error(error);
+          if (error.error.message != undefined) {
+            console.log('eita');
+            this.erro = error.error.message.msg;
+          }
+
+          this.erro = error.error.error;
           this.error$.next(true);
           return of();
         })

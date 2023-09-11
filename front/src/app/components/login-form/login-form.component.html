@@ -45,6 +45,9 @@
       <div class="text-danger mt-2 mb-4" *ngIf="error$ | async">
         Erro ao realizar o login, preencha novamente conferindo os dados
       </div>
+      <div class="text-danger mt-2 mb-4" *ngIf="error$ | async">
+        {{ erro }}
+      </div>
       <button
         class="w-100 btn btn-warning"
         type="submit"

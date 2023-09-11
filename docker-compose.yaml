@@ -3,6 +3,8 @@ version: "3.8"
 services:
   api:
     container_name: api
+    depends_on:
+      - db
     build:
       context: .
       dockerfile: ./back/ComposeDockerfile
@@ -14,6 +16,21 @@ services:
     restart: always
     env_file:
       - ./back/.env
+    networks:
+      - backend
+
+  db:
+    container_name: mysql_db
+    image: mysql:latest
+    volumes:
+      - db_data_info:/mysql
+    restart: always
+    env_file:
+      - ./back/.db.env
+    ports:
+      - "3306:3306"
+    expose:
+      - "3306"
     networks:
       - backend
 

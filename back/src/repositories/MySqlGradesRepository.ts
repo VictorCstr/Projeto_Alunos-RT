@@ -41,7 +41,7 @@ export class MySqlGradesRepository implements IGradeRepository {
       return arrayOfStudents;
     } catch (e) {
       console.log(e);
-      throw new Error("Method not implemented yet");
+      throw new ApiError(400, e as string);
     }
   }
 
@@ -74,7 +74,8 @@ export class MySqlGradesRepository implements IGradeRepository {
       }
       return arrayOfStudents;
     } catch (e) {
-      throw new Error("Method not implemented yet");
+      console.log(e);
+      throw new ApiError(400, e as string);
     }
   }
 }

@@ -20,6 +20,7 @@ export class LoginFormComponent {
   }
   form!: FormGroup;
   error$ = new Subject<boolean>();
+  erro!: string;
 
   createForm(): void {
     this.form = this.formBuilder.group({
@@ -33,7 +34,8 @@ export class LoginFormComponent {
       .login(this.form.value)
       .pipe(
         catchError((error) => {
-          console.error(error);
+          console.error(error.error.message);
+          this.erro = error.error.message.msg;
           this.error$.next(true);
           return of();
         })
