@@ -34,8 +34,7 @@ export class LoginFormComponent {
       .login(this.form.value)
       .pipe(
         catchError((error) => {
-          console.error(error.error.message);
-          this.erro = error.error.message.msg;
+          this.erro = error.error.message.msg.msg || error.error.message.msg;
           this.error$.next(true);
           return of();
         })
