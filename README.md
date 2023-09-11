@@ -30,7 +30,7 @@
 - CORS.
 - SOLID, POO.
 - MySQL localmente, Prisma ORM.
-- Amazon RDS com uma instância MySQL para produção com escalabilidade automática.
+- Azure MYSQL para produção com escalabilidade automática.
 - Amazon Elastic Container Registry para subir os containers.
 - Amazon Elastic Container Service para orquestração dos containers de forma prática.
 - Docker e Docker-Compose.
