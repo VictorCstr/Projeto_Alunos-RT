@@ -60,10 +60,23 @@ export async function passwordIsCorrect(password: string) {
 }
 
 export async function gradeIsCorrect(grade: number) {
-  if (grade < 0 || grade > 100) {
+  if (grade == null || grade == undefined || grade < 0 || grade > 100) {
     return {
       sucess: false,
       result: "A nota do aluno vai de 0 a 100",
+    };
+  } else {
+    return {
+      sucess: true,
+    };
+  }
+}
+
+export async function IdIsCorrect(id: string) {
+  if (id == null || id == undefined) {
+    return {
+      sucess: false,
+      result: "O ID precisa ser inserido. (String).",
     };
   } else {
     return {
