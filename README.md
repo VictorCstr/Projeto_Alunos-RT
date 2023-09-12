@@ -27,6 +27,7 @@
 - Clean Architecture.
 - Socket.Io.
 - Angular, Bootstrap.
+- NGIX para deploy do servidor Web.
 - CORS.
 - SOLID, POO.
 - MySQL localmente, Prisma ORM.
