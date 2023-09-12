@@ -9,7 +9,7 @@ export class SocketService {
   private socket: any;
 
   constructor() {
-    this.socket = io('http://127.0.0.1:9090', {
+    this.socket = io('http://localhost:9090', {
       transports: ['websocket'],
     });
   }

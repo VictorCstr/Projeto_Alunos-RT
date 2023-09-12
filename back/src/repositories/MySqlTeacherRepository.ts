@@ -58,15 +58,15 @@ export class MySqlTeacherRepository implements ITeacherRepository {
       throw new ApiError(400, e as string);
     }
   }
-  async releaseGrades(activity: Activity, id: string): Promise<Boolean> {
+  async releaseGrades(activity: Activity, studentId: string): Promise<Boolean> {
     try {
       await prisma.activity.create({
         data: {
-          id: activity.id,
+          id: activity.id!,
           school: activity.school,
           activityName: activity.activityName,
           grade: activity.grade,
-          studentId: id,
+          studentId,
         },
       });
       return true;
