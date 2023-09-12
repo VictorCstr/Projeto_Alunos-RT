@@ -11,9 +11,6 @@ RUN npm install
 COPY prisma/ /code/prisma
 COPY src/ /code/src 
 
-# RUN npx prisma generate
-# CMD npx prisma migrate dev && npm run dev
-
 RUN npx prisma generate
 RUN npm run build
 CMD npx prisma db push --preview-feature && npm run start
