@@ -48,7 +48,7 @@ export class FakeGradesRepository implements IGradeRepository {
 
   async getRankingBy(school: School): Promise<Student[]> {
     const studentsBySchool = this.students.filter((student) => {
-      student.school == school;
+      return student.school == school;
     });
 
     const ordenados = studentsBySchool.sort(function (a, b) {
