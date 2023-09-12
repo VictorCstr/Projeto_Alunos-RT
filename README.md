@@ -53,15 +53,15 @@ $ git clone
 $ cd pasta
 
 # Criar as variaveis para o container.
-$ Para melhorar o teste da aplicação, foi retirado o .env de dentro do gitignore, para início imediato
-$ do sistema sem a necessidade de configuração, caso queira trocar o banco de dados, basta trocar o env dentro do prisma e rodar o compose denovo.
-$ DATABASE_URL = hospedado no azure, DATABASE_URL_LOCAL= instância executando no compose.
+$ Para melhorar o teste da aplicação, foi retirado o .env de dentro do gitignore, para início imediato do sistema
+ sem a necessidade de configuração.
 
 # Faça a instalação dos containers com o compose
 $ docker-compose up --build
 
 # Para executar
 $ Para testar a api basta acessar com alguma ferramenta como o Postman na rota http://localhost:9090/
+
 $ Para testar o portal web basta acessar com o navegador na rota http://localhost:4200/
 
 # Para rodar os testes
