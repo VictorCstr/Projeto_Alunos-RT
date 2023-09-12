@@ -9,7 +9,7 @@ import { compareHash } from "../utils/encrypt";
 import { signJwt } from "../utils/signJwt";
 
 export class FakeTeacherRepository implements ITeacherRepository {
-  private teachers: Teacher[] = [
+  public teachers: Teacher[] = [
     {
       id: "1",
       name: "Victor",
@@ -17,13 +17,17 @@ export class FakeTeacherRepository implements ITeacherRepository {
       password: "$2b$10$UXdibzMOCHkL/6xUvmahXeiJVNE8I7iXW3WaXeY3ZcngJ4ZHXMyw2",
     },
   ];
-  private students: Student[] = [
+  public students: Student[] = [
     {
       id: "1",
       name: "Victor",
       school: School.Dados,
     },
   ];
+  async getUser(id: string): Promise<Student> {
+    const student = this.students.find((stud) => stud.id == id)!;
+    return await student;
+  }
   async create(teacher: Teacher): Promise<Boolean> {
     this.teachers.push(teacher);
     return true;
@@ -40,6 +44,7 @@ export class FakeTeacherRepository implements ITeacherRepository {
     const student = this.students.find((stud) => stud.id == studentId);
     return student ? true : false;
   }
+
   async login(email: string, password: string): Promise<string> {
     const teacher = this.teachers.find((teach) => teach.email == email);
 
