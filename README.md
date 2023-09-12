@@ -36,7 +36,7 @@
 - Docker e Docker-Compose.
 - JSON Web Token para uso de tokens no portal.
 - Bcrypt para processamento de Hash mais confiável das senhas.
-- Jest para testes.
+- Jest e supertest para testes unitários e de integração.
 - Wiston para logs locais em arquivos da aplicação.
 - Cluster e Compress para melhoria de desempenho.
 
