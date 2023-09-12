@@ -12,6 +12,13 @@ export class GetRankingBySchoolUseCase {
   async execute(data: IGetRankingBySchoolDTO): Promise<Student[]> {
     const { school } = data;
 
+    if (school == undefined || school == null) {
+      throw new ApiError(
+        404,
+        "O nome da escola precisa ser definido através do path params"
+      );
+    }
+
     return await this.gradesRepository.getRankingBy(school as School);
   }
 }
