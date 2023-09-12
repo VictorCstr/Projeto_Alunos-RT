@@ -1,5 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import {
+  IdIsCorrect,
   emailIsCorrect,
   gradeIsCorrect,
   nameIsCorrect,
@@ -35,14 +36,17 @@ export async function verifyReleaseGradesInputs(
   res: Response,
   next: NextFunction
 ) {
-  const { school, activityName, grade } = req.body;
+  const { id, school, activityName, grade } = req.body;
 
+  const verifyId = await IdIsCorrect(id);
   const verifySchool = await schoolIsCorrect(school);
   const verifyGrade = await gradeIsCorrect(grade);
   const verifyName = await nameIsCorrect(activityName);
 
   if (verifyGrade.sucess == false) {
     return res.status(400).json({ error: verifyGrade.result });
+  } else if (verifyId.sucess == false) {
+    return res.status(400).json({ error: verifyId.result });
   } else if (verifyName.sucess == false) {
     return res.status(400).json({ error: verifyName.result });
   } else if (verifySchool.sucess == false) {
