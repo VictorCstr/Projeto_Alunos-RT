@@ -26,7 +26,7 @@ export class MySqlTeacherRepository implements ITeacherRepository {
     try {
       await prisma.student.create({
         data: {
-          id: student.id,
+          id: student.id as string,
           school: student.school,
           name: student.name,
         },

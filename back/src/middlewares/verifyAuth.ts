@@ -3,6 +3,11 @@ import jwt, { Secret } from "jsonwebtoken";
 
 const secret = process.env.SECRET_KEY as Secret;
 
+interface Decoded {
+  id: string;
+  name: string;
+}
+
 async function verifyJWT(req: Request, res: Response, next: NextFunction) {
   const token = req.headers.authorization;
   if (!token)
@@ -15,7 +20,7 @@ async function verifyJWT(req: Request, res: Response, next: NextFunction) {
         .json({ auth: false, message: "Failed to authenticate token." });
 
     // se tudo estiver ok, salva no request para uso posterior
-    req.userId = decoded.id;
+    req.headers.userId = (decoded as Decoded).id;
     next();
   });
 }

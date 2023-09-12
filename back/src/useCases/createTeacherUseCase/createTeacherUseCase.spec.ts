@@ -1,190 +1,120 @@
 import app from "../../app";
+import supertest, { Response } from "supertest";
+import { Teacher } from "../../entities/Teacher";
+import { ApiError } from "../../errors";
+import { ITeacherRepository } from "../../interfaces/ITeacherRepository";
+import { FakeTeacherRepository } from "../../repositories/FakeTeacherRepository";
+import { hashPassword } from "../../utils/encrypt";
 import { CreateTeacherUseCase } from "./createTeacherUseCase";
 
-describe("Calcular Simulação de Empréstimo, POST /pedido", () => {
-  let fakeRepository, useCase;
+describe("Criação de usuário do Professor, POST /teacher", () => {
+  jest.setTimeout(10000);
+  let fakeRepository: ITeacherRepository;
+  let useCase: CreateTeacherUseCase;
+  let server;
 
-  fakeRepository = new MockRepository();
+  fakeRepository = new FakeTeacherRepository();
 
   beforeAll(() => {
     useCase = new CreateTeacherUseCase(fakeRepository);
+    server = supertest(app);
   });
 
-  it("Deveria retornar o calculo e criar no banco de dados retornando o pedido", async () => {
-    const pedido = {
-      nome: "Victor Teste de Teste",
-      cep: 37026550,
-      sacasCafe: 2,
-      vencimentoPagamento: new Date("2023-10-20"),
+  it("Deveria criar os dados do professor retornando um objeto de sucesso", async () => {
+    const user = {
+      id: "50",
+      name: "Victor Castro",
+      email: "victor2@teste.com",
+      password: "teste",
     };
 
-    const criarPedido: Produtor = await casoDeUso.execute(pedido);
+    const create = await useCase.execute(user);
 
-    expect(criarPedido).toBeDefined();
-    expect(criarPedido.valorLiberado).not.toBeUndefined();
+    expect(create).toBeDefined();
+    expect(create.success).toBe(true);
+    expect(create.message).toBe("Criação do usuário enviado com sucesso");
   });
 
-  it("Deveria retornar um erro se faltar alguma informação do usuário", async () => {
-    const pedido = {
-      nome: "Victor Teste de Teste",
-      cep: 37026550,
-      vencimentoPagamento: new Date("2023-10-20"),
+  it("Deveria retornar um erro se já existir o endereço de email cadastrado", async () => {
+    const user = {
+      id: "50",
+      name: "Victor Castro",
+      email: "victor@teste.com",
+      password: "teste",
     };
-
-    await casoDeUso.execute(pedido).catch((err) => {
-      expect(err).toBeInstanceOf(ApiError);
-      expect(err.msg).toMatch(/Dados não informados pelo cliente/);
-    });
-  });
-
-  it("Deveria retornar um erro se o CEP informado não condizer com os Estados com preços de sacas definidos", async () => {
-    const pedido = {
-      nome: "Victor Teste de Teste",
-      cep: 69900000,
-      sacasCafe: 2,
-      vencimentoPagamento: new Date("2023-10-20"),
-    };
-
-    await casoDeUso.execute(pedido).catch((err) => {
+    await useCase.execute(user).catch((err) => {
       expect(err).toBeInstanceOf(ApiError);
       expect(err.statusCode).toEqual(404);
-      expect(err.msg).toMatch(/Não é aceito pedidos para o estado informado/);
+      expect(err.msg).toMatch(/Endereço de email já em uso/);
     });
   });
 
-  it("Deveria pegar a data atual para cálculo de forma automática", async () => {
-    const pedido = {
-      nome: "Victor Teste de Teste",
-      cep: 12235190,
-      sacasCafe: 2,
-      vencimentoPagamento: new Date("2023-10-20"),
+  it("Deveria transformar a senha em hash", async () => {
+    const user = {
+      id: "50",
+      name: "Victor Castro",
+      email: "victor@teste.com",
+      password: "teste",
     };
 
-    const criarPedido = await casoDeUso.execute(pedido);
+    const hash = await hashPassword(user.password);
 
-    expect(criarPedido).toBeDefined();
-    expect(criarPedido).toHaveProperty("dataSimulacao");
-    expect(criarPedido.dataSimulacao).not.toBeUndefined();
+    expect(hash).toBeDefined;
+    expect(hash).not.toEqual(user.password);
   });
 
-  it("Deveria calcular o valor liberado para o produtor", async () => {
-    const pedido = {
-      estado: "SP",
-      sacas: 2,
-      dataPagamento: new Date("2023-10-20"),
-      dataAtual: new Date("2023-07-28"),
+  it("Deveria retornar um erro se faltar o nome ou estar de forma incorreta no body", async () => {
+    const user = {
+      id: "50",
+      email: "victor@teste.com",
+      password: "@Teste123",
     };
 
-    const calcular = await calculoProvisor.calcular(
-      pedido.estado,
-      pedido.sacas,
-      pedido.dataPagamento,
-      pedido.dataAtual
-    );
+    return await server!
+      .post("/teacher")
+      .send(user)
+      .then((res: Response) => {
+        expect(res.statusCode).toEqual(400);
+        expect(res.body.error).toBeDefined();
+        expect(res.body.error).toMatch(
+          /Nome completo informado com tamanho errado ou não foi definido/
+        );
+      });
+  });
 
-    expect(calcular).toBeDefined();
-    expect(calcular).toBeGreaterThanOrEqual(0);
+  it("Deveria retornar um erro se faltar a senha ou estar de forma incorreta no body", async () => {
+    const user = {
+      id: "50",
+      email: "victor@teste.com",
+      password: "teste",
+    };
+
+    return await server!
+      .post("/teacher")
+      .send(user)
+      .then((res: Response) => {
+        expect(res.statusCode).toEqual(400);
+        expect(res.body.error).toBeDefined();
+        expect(res.body.error).toMatch(
+          /A senha não está definida ou não contém pelo menos /
+        );
+      });
+  });
+
+  it("Deveria retornar um erro se faltar o email ou estar de forma incorreta no body", async () => {
+    const user = {
+      id: "50",
+      email: "victor.com",
+      password: "@Teste123",
+    };
+
+    return await server!
+      .post("/teacher")
+      .send(user)
+      .then((res: Response) => {
+        expect(res.statusCode).toEqual(400);
+        expect(res.body.error).toBeDefined();
+        expect(res.body.error).toMatch(/Email não foi informado corretamente./);
+      });
   });
 });
-
-// describe("Calcular Simulação de Empréstimo, POST /pedido, Integração", () => {
-//   let fakeRepositorio, casoDeUso, calculoProvisor, estadoProvisor, server;
-
-//   fakeRepositorio = new MockRepositorio();
-//   calculoProvisor = new CalculoProvisor();
-//   estadoProvisor = new EstadoProvisor();
-
-//   beforeAll(() => {
-//     server = supertest(app);
-//     casoDeUso = new CalculoCasoDeUso(
-//       fakeRepositorio,
-//       calculoProvisor,
-//       estadoProvisor
-//     );
-//   });
-
-//   it("Deveria retornar erro ao receber um nome de forma incorreta na requisição", async () => {
-//     const pedido = {
-//       nome: "Vic",
-//       cep: 12235190,
-//       sacasCafe: 2,
-//       vencimentoPagamento: new Date("2023-10-20"),
-//     };
-
-//     return server
-//       .post("/pedido")
-//       .send(pedido)
-//       .then((res) => {
-//         expect(res.statusCode).toEqual(400);
-//         expect(res.body.error).toBeDefined();
-//         expect(res.body.error).toMatch(/Nome completo informado com tamanho/);
-//       });
-//   });
-//   it("Deveria retornar erro ao receber a data de vencimento de forma incorreta na requisição", async () => {
-//     const pedido = {
-//       nome: "Victor",
-//       cep: 12235190,
-//       sacasCafe: 2,
-//       vencimentoPagamento: "2023-12-20",
-//     };
-
-//     return server
-//       .post("/pedido")
-//       .send(pedido)
-//       .then((res) => {
-//         expect(res.statusCode).toEqual(400);
-//         expect(res.body.error).toBeDefined();
-//         expect(res.body.error).toMatch(/A data precisa ser/);
-//       });
-//   });
-//   it("Deveria retornar erro ao receber um CEP de forma incorreta na requisição", async () => {
-//     const pedido = {
-//       nome: "Victor",
-//       cep: "12235-190",
-//       sacasCafe: 2,
-//       vencimentoPagamento: new Date("2023-10-20"),
-//     };
-
-//     return server
-//       .post("/pedido")
-//       .send(pedido)
-//       .then((res) => {
-//         expect(res.statusCode).toEqual(400);
-//         expect(res.body.error).toBeDefined();
-//         expect(res.body.error).toMatch(/Informar o CEP como número/);
-//       });
-//   });
-//   it("Deveria retornar erro ao receber a quantidade de sacas de forma incorreta na requisição", async () => {
-//     const pedido = {
-//       nome: "Victor",
-//       cep: 12235190,
-//       sacasCafe: "2",
-//       vencimentoPagamento: new Date("2023-10-20"),
-//     };
-
-//     return server
-//       .post("/pedido")
-//       .send(pedido)
-//       .then((res) => {
-//         expect(res.statusCode).toEqual(400);
-//         expect(res.body.error).toBeDefined();
-//         expect(res.body.error).toMatch(/em formato númerico/);
-//       });
-//   });
-//   it("Deveria retornar codigo 200 e o pedido simulado", async () => {
-//     const pedido = {
-//       nome: "Victor",
-//       cep: 12235190,
-//       sacasCafe: 2,
-//       vencimentoPagamento: "25-12-2023",
-//     };
-
-//     return server
-//       .post("/pedido")
-//       .send(pedido)
-//       .then((res) => {
-//         expect(res.statusCode).toEqual(201);
-//         expect(res.body.valorLiberado).toBeDefined();
-//       });
-//   });
-// });

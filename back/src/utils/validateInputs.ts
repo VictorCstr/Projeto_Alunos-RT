@@ -3,10 +3,10 @@ import { School } from "../entities/enums/School";
 export async function emailIsCorrect(email: string) {
   let regex = /^\w+([\.-]?\w+)*@\D+\.\D+$/gm;
   if (
-    regex.test(email) == false ||
-    email.length < 5 ||
     email == null ||
-    email == undefined
+    email == undefined ||
+    regex.test(email) == false ||
+    email.length < 5
   ) {
     return {
       sucess: false,
@@ -22,10 +22,10 @@ export async function emailIsCorrect(email: string) {
 
 export async function nameIsCorrect(name: string) {
   if (
-    name.length > 50 ||
-    name.length < 4 ||
     name == null ||
-    name == undefined
+    name == undefined ||
+    name.length > 50 ||
+    name.length < 4
   ) {
     return {
       sucess: false,
