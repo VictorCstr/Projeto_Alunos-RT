@@ -10,13 +10,11 @@ describe("Criação de usuário do Professor, POST /teacher", () => {
   jest.setTimeout(10000);
   let fakeRepository: IGradeRepository;
   let useCase: GetRankingBySchoolUseCase;
-  let server;
 
   fakeRepository = new FakeGradesRepository();
 
   beforeAll(() => {
     useCase = new GetRankingBySchoolUseCase(fakeRepository);
-    server = supertest(app);
   });
 
   it("Deveria retornar um array com uma lista de estudantes", async () => {
