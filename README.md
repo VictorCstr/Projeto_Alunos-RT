@@ -66,11 +66,11 @@ $ docker-compose up --build
 # Para executar
 $ Para testar a api basta acessar com alguma ferramenta como o Postman na rota http://localhost:9090/
 
-$ Para testar o portal web basta acessar com o navegador na rota http://localhost:4200/
+$ Para testar o portal web basta acessar com o navegador na rota http://localhost:80/
 
 # Para rodar os testes
-$ cd pasta/back/
-$ npm test
+$ Em outro terminal executar o comando abaixo com o compose ligado
+$ 'docker exec -it {id do container} sh -c 'npm run test'
 
 ```
 
@@ -78,9 +78,10 @@ $ npm test
 
 ```bash
 API: apidnc.azurewebsites.net/
-Portas liberadas para acesso total.
+Portas liberadas para acesso total, testável no insomnia/postman.
 
 WEB: webdnc.azurewebsites.net/
+Vinculada a API.
 
 ```
 
