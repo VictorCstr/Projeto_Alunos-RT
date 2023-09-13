@@ -23,9 +23,15 @@ export class IndexComponent {
   ) {
     this.listGlobalRanking();
 
-    this.socketService.onEvent('newGrades').subscribe(() => {
-      this.listGlobalRanking();
-      this.listRankingBySchool();
+    this.socketService.conect();
+
+    this.socketService.onEvent('connect').subscribe((socket) => {
+      console.log('Conectado ao socket');
+      this.socketService.onEvent('newGrades').subscribe((data) => {
+        console.log('recebido evento');
+        console.log(data);
+        this.listGlobalRanking();
+      });
     });
   }
 
