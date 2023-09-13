@@ -18,7 +18,7 @@
 
  ## :computer: Solução da Aplicação
   <p align="center">
-  <img src="https://github.com/VictorCstr/Projeto_Alunos-RT/blob/main/diagrama.png" width="70%">
+  <img src="https://github.com/VictorCstr/Projeto_Alunos-RT/blob/main/diagramaazure.png" width="70%">
  </p>
 
 ## :computer: Tecnologias
