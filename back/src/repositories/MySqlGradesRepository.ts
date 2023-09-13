@@ -26,7 +26,7 @@ export class MySqlGradesRepository implements IGradeRepository {
       });
 
       for (let i = 0; i < gradesBySchool.length; i++) {
-        let studentOnRepo = (await prisma.student.findFirst({
+        let studentOnRepo = await prisma.student.findFirst({
           where: {
             id: gradesBySchool[i].studentId,
           },
@@ -34,9 +34,24 @@ export class MySqlGradesRepository implements IGradeRepository {
             id: true,
             name: true,
             school: true,
+            activity: true,
           },
-        })) as Student;
-        arrayOfStudents[i] = studentOnRepo;
+        });
+
+        let totalgrade = 0;
+
+        studentOnRepo?.activity.forEach((activity) => {
+          totalgrade += activity.grade;
+        });
+
+        let student = {
+          id: studentOnRepo!.id,
+          name: studentOnRepo!.name,
+          school: studentOnRepo!.school as School,
+          totalSum: totalgrade,
+        };
+
+        arrayOfStudents[i] = student;
       }
       return arrayOfStudents;
     } catch (e) {
@@ -60,7 +75,7 @@ export class MySqlGradesRepository implements IGradeRepository {
       });
 
       for (let i = 0; i < top3.length; i++) {
-        let studentOnRepo = (await prisma.student.findFirst({
+        let studentOnRepo = await prisma.student.findFirst({
           where: {
             id: top3[i].studentId,
           },
@@ -68,10 +83,26 @@ export class MySqlGradesRepository implements IGradeRepository {
             id: true,
             name: true,
             school: true,
+            activity: true,
           },
-        })) as Student;
-        arrayOfStudents[i] = studentOnRepo;
+        });
+
+        let totalgrade = 0;
+
+        studentOnRepo?.activity.forEach((activity) => {
+          totalgrade += activity.grade;
+        });
+
+        let student = {
+          id: studentOnRepo!.id,
+          name: studentOnRepo!.name,
+          school: studentOnRepo!.school as School,
+          totalSum: totalgrade,
+        };
+
+        arrayOfStudents[i] = student;
       }
+
       return arrayOfStudents;
     } catch (e) {
       console.log(e);
