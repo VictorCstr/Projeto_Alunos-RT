@@ -9,7 +9,7 @@ export class SocketService {
   private socket: any;
 
   constructor() {
-    this.socket = io('http://localhost:9090', {
+    this.socket = io('ws://https://apidnc.azurewebsites.net/', {
       transports: ['websocket'],
     });
   }

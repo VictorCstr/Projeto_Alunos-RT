@@ -15,7 +15,6 @@ export class IndexComponent {
   students!: Student[];
   studentBySchool!: Student[];
   school!: string;
-  socket = io('http://localhost:9090');
 
   constructor(
     private route: ActivatedRoute,
