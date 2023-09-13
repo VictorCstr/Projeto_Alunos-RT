@@ -1,17 +1,23 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import io from 'socket.io-client';
+import io, { Socket } from 'socket.io-client';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class SocketService {
-  private socket: any;
+  private socket: Socket;
 
   constructor() {
-    this.socket = io('ws://https://apidnc.azurewebsites.net/', {
-      transports: ['websocket'],
+    this.socket = io(environment.websocketUrl, {
+      transports: ['websocket', 'polling'],
+      withCredentials: true,
     });
+  }
+
+  conect() {
+    this.socket.connect();
   }
 
   sendMessage(message: string) {

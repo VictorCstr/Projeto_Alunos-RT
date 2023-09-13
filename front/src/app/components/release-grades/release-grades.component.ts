@@ -15,7 +15,6 @@ export class ReleaseGradesComponent {
   user!: Teacher;
   form!: FormGroup;
   error$ = new Subject<true>();
-  socket = io('http://localhost:9090');
   erro!: string;
 
   constructor(
