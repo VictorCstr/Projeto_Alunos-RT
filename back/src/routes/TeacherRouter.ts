@@ -8,7 +8,7 @@ import {
 import { loginTeacherUseCase } from "../useCases/loginTeacherUseCase";
 import { releaseGradesUseCase } from "../useCases/releaseGradesUseCase";
 import verifyJWT from "../middlewares/verifyAuth";
-import { io } from "../cluster";
+import socket from "../utils/socket";
 
 const teacherRoutes = express.Router();
 
@@ -81,7 +81,7 @@ teacherRoutes.post(
       logger.info("Resposta:");
       logger.info(releaseGrade);
 
-      io.emit("newGrades");
+      socket.emit("newGrades");
 
       return res.status(200).json(releaseGrade);
     } catch (err) {
