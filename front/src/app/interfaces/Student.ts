@@ -5,5 +5,6 @@ export interface Student {
   id: string;
   name: string;
   school: School;
+  totalSum: number;
   activity?: Activity;
 }
