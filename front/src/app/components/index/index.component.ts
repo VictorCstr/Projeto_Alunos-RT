@@ -2,8 +2,6 @@ import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Student } from 'src/app/interfaces/Student';
 import { UserService } from 'src/app/services/user.service';
-import { io } from 'socket.io-client';
-import { Observable } from 'rxjs';
 import { SocketService } from 'src/app/services/socket.service';
 
 @Component({

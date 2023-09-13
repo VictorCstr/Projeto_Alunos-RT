@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Observable, Subject, catchError, of } from 'rxjs';
-import { io } from 'socket.io-client';
 import { Teacher } from 'src/app/interfaces/Teacher';
 import { UserService } from 'src/app/services/user.service';
 

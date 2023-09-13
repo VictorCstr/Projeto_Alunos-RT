@@ -1,5 +1,5 @@
 export const environment = {
   production: false,
-  apiUrl: 'http://host.docker.internal:9090',
-  websocketUrl: 'http://host.docker.internal:9090',
+  apiUrl: 'http://localhost:9090',
+  websocketUrl: 'http://localhost:9090',
 };
