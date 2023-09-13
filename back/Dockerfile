@@ -13,5 +13,5 @@ COPY src/ /code/src
 
 RUN npx prisma generate
 RUN npm run build
-CMD npx prisma db push --preview-feature && npm run start
+CMD npx prisma db push && npm run start
 
