@@ -4,6 +4,7 @@ import app from "./app";
 import logger from "./utils/logger";
 
 const port = Number(process.env.PORT) || 9090;
+let http;
 
 if (cluster.isPrimary) {
   logger.info(`Running on master ${process.pid} and now creating workers`);
@@ -16,12 +17,8 @@ if (cluster.isPrimary) {
     });
   }
 } else {
-  var http = require("http").createServer(app);
+  http = require("http").createServer(app);
   http.listen(port, "0.0.0.0");
 }
-export const io = require("socket.io")(http, {
-  cors: {
-    origin: "*",
-    methods: ["GET", "POST"],
-  },
-});
+
+export default http;
