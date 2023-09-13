@@ -4,7 +4,7 @@ import app from "./app";
 import logger from "./utils/logger";
 
 const port = Number(process.env.PORT) || 9090;
-let http;
+let io;
 
 if (cluster.isPrimary) {
   logger.info(`Running on master ${process.pid} and now creating workers`);
@@ -17,8 +17,24 @@ if (cluster.isPrimary) {
     });
   }
 } else {
-  http = require("http").createServer(app);
-  http.listen(port, "0.0.0.0");
+  const server = require("http").createServer(app);
+  io = require("socket.io")(server, {
+    cors: {
+      origin: "*",
+      methods: ["GET", "POST"],
+      transports: ["websocket", "polling"],
+      credentials: true,
+      allowEIO3: true,
+    },
+  });
+
+  io.on("connect", (socket: any) => {
+    console.log("Socket Conectado!");
+  });
+
+  app.set("IO", io);
+
+  server.listen(port, "0.0.0.0");
 }
 
-export default http;
+export default io;
