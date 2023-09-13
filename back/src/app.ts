@@ -4,6 +4,8 @@ import compression from "compression";
 import teacherRoutes from "./routes/TeacherRouter";
 import routes from "./routes/GradesRouter";
 
+require("events").defaultMaxListeners = 15;
+
 const app = express();
 app.use(cors());
 app.use(express.urlencoded({ extended: false }));
