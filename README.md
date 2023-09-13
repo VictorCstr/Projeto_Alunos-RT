@@ -1,7 +1,10 @@
 <p align="center">
  <a href="#computer-o-projeto">Sobre</a> •
+  <a href="#computer-diagrama-do-banco-de-dados">Diagrama SQL</a> •
+  <a href="#computer-solução-da-aplicação">Solução</a> •
  <a href="#computer-tecnologias">Tecnologias usadas</a> • 
- <a href="#mag_right-para-rodar-o-projeto-de-forma-local">Como rodar</a> • 
+ <a href="#mag_right-para-rodar-o-projeto-de-forma-local">Como rodar localmente</a> • 
+  <a href="#mag_right-projeto-na-nuvem">Hospedado na nuvem</a> • 
  <a href="#mag_right-rotas">Rotas</a> • 
 </p>
 
@@ -9,7 +12,7 @@
 
 - Sistema de rankeamento de alunos. Utilizando Clean Architecture com sua arquitetura desacoplada, o que permite integrar outros microsserviços posteriormente e também prestar manutenção facilmente. O sistema possui cadastro e login de professores com JWT que permite, assim que logado, fazer o lançamento de notas de alunos informando a escola e matéria vinculada a cada aluno.
 - Na página principal, de forma pública, é mostrado o rankeamento global do top 3 de todas as escolas, e através de botões é possível ver o top 10 de cada escola. Atualização do ranking em tempo real utilizando websockets, que são enviados e atualizados sempre que é enviada uma nota nova no sistema.
-- De começo foi pensado e definido qual seria o MER da solução, após definido foi feito o back end, e após o back-end o front-end, fazendo ajustes para que ambos estivessem de acordo, foi feito a sincronia do tempo real da solução. Já definido que seria usado a cloud AWS, para ambiente de produção foi implementado uma instância do MySQL no RDS, e ECS para orquestração dos dois containers (API, portal WEB), visto que com ele dá para trabalhar com load balancer caso tenha uma carga alta de requisicoes, escalando horizontalmente com réplicas, e também trazendo segurança para uma aplicação sempre online.
+- De começo foi pensado e definido qual seria o MER da solução, e como seria o deploy, após definido foi feito todo o necessário inicialmente no back-end, e após o front-end para começar a interligação, fazendo ajustes para que ambos estivessem de acordo, foi feito a sincronia do tempo real da solução. Já definido que seria usado a cloud Azure, para iniciar em ambiente de produção foi implementado uma instância de servidor flexível Azure para MYSQL que escala e possui redundância com backup, e serviços de aplicativos dos dois containers (API, portal WEB) que possuem escalamente horizontal caso necessário.
 
 ## :computer: Diagrama do banco de Dados
   <p align="center">
@@ -18,7 +21,7 @@
 
  ## :computer: Solução da Aplicação
   <p align="center">
-  <img src="https://github.com/VictorCstr/Projeto_Alunos-RT/blob/main/diagrama.png" width="70%">
+  <img src="https://github.com/VictorCstr/Projeto_Alunos-RT/blob/main/diagramaazure.png" width="70%">
  </p>
 
 ## :computer: Tecnologias
@@ -32,8 +35,8 @@
 - SOLID, POO.
 - MySQL localmente, Prisma ORM.
 - Azure MYSQL para produção com escalabilidade automática.
-- Amazon Elastic Container Registry para subir os containers.
-- Amazon Elastic Container Service para orquestração dos containers de forma prática.
+- Azure Container Registry para subir os container
+- Azure App Service para Hospedagem dos Containers com scalling.
 - Docker e Docker-Compose.
 - JSON Web Token para uso de tokens no portal.
 - Bcrypt para processamento de Hash mais confiável das senhas.
@@ -68,6 +71,16 @@ $ Para testar o portal web basta acessar com o navegador na rota http://localhos
 # Para rodar os testes
 $ cd pasta/back/
 $ npm test
+
+```
+
+## :mag_right: Projeto na nuvem:
+
+```bash
+API: apidnc.azurewebsites.net/
+Portas liberadas para acesso total.
+
+WEB: webdnc.azurewebsites.net/
 
 ```
 
